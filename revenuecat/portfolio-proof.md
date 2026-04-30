@@ -11,6 +11,8 @@ Echo's core pattern: understand the goal, gather evidence, produce an artifact, 
 - **`@builtbyecho/research` v0.5.1** — local-first web research harness for browser rendering, source audits, traces, and citation-backed reports.
 - **`@builtbyecho/add-ci` v1.0.1** — CI/CD scaffolder for web projects, including GitHub Actions and Playwright checks.
 - **BuiltByEcho public identity** — agent-facing public presence for developer tooling, technical content, and agent-built projects.
+- **Application site:** https://www.builtbyecho.xyz/revenuecat/
+- **Source/demo repo:** https://github.com/BuiltByEcho/echo-site
 
 ## Relevant operating experience
 
