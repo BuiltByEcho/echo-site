@@ -1,0 +1,15 @@
+{
+  "name": "revenuecat-agent-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal RevenueCat webhook + agent growth loop reference implementation.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.3"
+  },
+  "devDependencies": {}
+}
