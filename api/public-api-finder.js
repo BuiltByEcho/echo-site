@@ -10,6 +10,18 @@ const CRYPTO_APIS = [
   { name: 'Birdeye', url: 'https://docs.birdeye.so/', description: 'On-chain market data, prices, trades, wallets, and DeFi analytics across chains.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Cryptocurrency', source: 'echo-curated', score: 86 },
 ];
 
+
+const FINANCE_APIS = [
+  { name: 'Stooq', url: 'https://stooq.com/db/h/', description: 'Free historical stock quotes, daily prices, forex, indices, and CSV market data downloads.', auth: 'No', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 118 },
+  { name: 'Alpha Vantage', url: 'https://www.alphavantage.co/documentation/', description: 'Stock, ETF, forex, crypto, technical indicators, company data, and market data API with a free API-key tier.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 112 },
+  { name: 'Finnhub', url: 'https://finnhub.io/docs/api', description: 'Real-time stock, forex, crypto, company fundamentals, news, and alternative market data.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 108 },
+  { name: 'Twelve Data', url: 'https://twelvedata.com/docs', description: 'Stock, forex, ETF, index, and crypto market data with real-time and historical prices.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 106 },
+  { name: 'Polygon.io', url: 'https://polygon.io/docs/', description: 'Stock market, options, forex, crypto, tickers, trades, aggregates, and historical market data.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 104 },
+  { name: 'Tradier', url: 'https://developer.tradier.com/', description: 'US equity, options, quotes, market data, trading, and brokerage API.', auth: 'OAuth', https: true, cors: 'Yes', category: 'Finance', source: 'echo-curated', score: 98 },
+  { name: 'Financial Modeling Prep', url: 'https://site.financialmodelingprep.com/developer/docs', description: 'Stock quotes, company fundamentals, financial statements, earnings, analyst estimates, and market data.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 94 },
+  { name: 'Portfolio Optimizer', url: 'https://portfoliooptimizer.io/', description: 'Portfolio optimization, asset allocation, efficient frontier, risk metrics, and finance analytics API.', auth: 'No', https: true, cors: 'Yes', category: 'Finance', source: 'echo-curated', score: 72 },
+];
+
 const json = (res, status, body) => {
   res.statusCode = status;
   res.setHeader('content-type', 'application/json; charset=utf-8');
@@ -17,8 +29,10 @@ const json = (res, status, body) => {
   res.end(JSON.stringify(body));
 };
 
-const isCryptoQuery = (query) => /\b(crypto|cryptocurrency|dex|defi|coin|coins|price|prices|market cap|wallet|chain|base|solana|ethereum)\b/i.test(query);
+const isFinanceQuery = (query) => /\b(stock|stocks|equity|equities|ticker|tickers|quote|quotes|market data|intraday|ohlc|candles|portfolio|options|etf|forex|earnings|fundamentals)\b/i.test(query);
+const isCryptoQuery = (query) => !isFinanceQuery(query) && /\b(crypto|cryptocurrency|dex|defi|coin|coins|market cap|wallet|chain|base|solana|ethereum|bitcoin)\b/i.test(query);
 const isCryptoResult = (api) => /cryptocurrency|crypto|dex|defi|coin|chain|wallet|market/i.test(`${api.category} ${api.name} ${api.description}`);
+const isFinanceResult = (api) => /finance|financial/i.test(String(api.category || '')); 
 
 function normalizeResult(api) {
   return {
@@ -72,7 +86,14 @@ export default async function handler(req, res) {
     const packageResults = await searchApis(options);
     let results = packageResults;
 
-    if (isCryptoQuery(query)) {
+    if (isFinanceQuery(query)) {
+      results = mergeDedupe([...FINANCE_APIS, ...packageResults])
+        .filter(isFinanceResult)
+        .filter((api) => !options.noAuth || api.auth === 'No')
+        .filter((api) => !options.https || api.https)
+        .filter((api) => !options.cors || api.cors === options.cors)
+        .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+    } else if (isCryptoQuery(query)) {
       results = mergeDedupe([...CRYPTO_APIS, ...packageResults])
         .filter(isCryptoResult)
         .filter((api) => !options.noAuth || api.auth === 'No')
