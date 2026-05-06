@@ -29,8 +29,9 @@ const json = (res, status, body) => {
   res.end(JSON.stringify(body));
 };
 
-const isFinanceQuery = (query) => /\b(stock|stocks|equity|equities|ticker|tickers|quote|quotes|market data|intraday|ohlc|candles|portfolio|options|etf|forex|earnings|fundamentals)\b/i.test(query);
-const isCryptoQuery = (query) => !isFinanceQuery(query) && /\b(crypto|cryptocurrency|dex|defi|coin|coins|market cap|wallet|chain|base|solana|ethereum|bitcoin)\b/i.test(query);
+const hasCryptoIntent = (query) => /\b(crypto|cryptocurrency|dex|defi|coin|coins|market cap|wallet|chain|base|solana|ethereum|bitcoin)\b/i.test(query);
+const isFinanceQuery = (query) => !hasCryptoIntent(query) && /\b(stock|stocks|equity|equities|ticker|tickers|quote|quotes|market data|intraday|ohlc|candles|portfolio|options|etf|forex|earnings|fundamentals)\b/i.test(query);
+const isCryptoQuery = (query) => hasCryptoIntent(query);
 const isCryptoResult = (api) => /cryptocurrency|crypto|dex|defi|coin|chain|wallet|market/i.test(`${api.category} ${api.name} ${api.description}`);
 const isFinanceResult = (api) => /finance|financial/i.test(String(api.category || '')); 
 
