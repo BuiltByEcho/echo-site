@@ -1030,12 +1030,8 @@
       `).join('');
     }
 
-    function runApiSearch() {
-      const query = document.querySelector('#api-query')?.value || '';
-      const noAuth = document.querySelector('#filter-no-auth')?.checked;
-      const httpsOnly = document.querySelector('#filter-https')?.checked;
-      const cors = document.querySelector('#filter-cors')?.value || '';
-      const results = apiFinderData
+    function fallbackApiSearch(query, noAuth, httpsOnly, cors) {
+      return apiFinderData
         .filter((api) => !noAuth || api.auth === 'No')
         .filter((api) => !httpsOnly || api.https)
         .filter((api) => !cors || api.cors === cors)
@@ -1043,7 +1039,25 @@
         .filter((api) => api.score > 0)
         .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
         .slice(0, 6);
-      renderApiResults(results);
+    }
+
+    async function runApiSearch() {
+      const query = document.querySelector('#api-query')?.value || '';
+      const noAuth = document.querySelector('#filter-no-auth')?.checked;
+      const httpsOnly = document.querySelector('#filter-https')?.checked;
+      const cors = document.querySelector('#filter-cors')?.value || '';
+      try {
+        const response = await fetch('/api/public-api-finder', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ query, noAuth, https: httpsOnly, cors, limit: 8 }),
+        });
+        if (!response.ok) throw new Error('search failed');
+        const data = await response.json();
+        renderApiResults(data.results || []);
+      } catch {
+        renderApiResults(fallbackApiSearch(query, noAuth, httpsOnly, cors));
+      }
     }
 
     document.querySelector('#api-finder-form')?.addEventListener('submit', (event) => {

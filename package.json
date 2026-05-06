@@ -1,5 +1,9 @@
 {
   "name": "echo-site",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@builtbyecho/public-api-finder": "^0.5.2"
+  }
 }
