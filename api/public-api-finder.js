@@ -1,5 +1,3 @@
-import { searchApis } from '@builtbyecho/public-api-finder/src/cli.js';
-
 const CRYPTO_APIS = [
   { name: 'DexScreener', url: 'https://docs.dexscreener.com/api/reference', description: 'Free DEX market data, pairs, liquidity, price charts, and trending assets across chains.', auth: 'No', https: true, cors: 'Yes', category: 'Cryptocurrency', source: 'echo-curated', score: 120 },
   { name: 'CoinGecko', url: 'https://www.coingecko.com/en/api', description: 'Crypto prices, market data, assets, exchanges, DeFi data, and historical market charts.', auth: 'apiKey', https: true, cors: 'Yes', category: 'Cryptocurrency', source: 'echo-curated', score: 112 },
@@ -69,6 +67,8 @@ export default async function handler(req, res) {
       refresh: false,
     };
 
+    process.env.PUBLIC_API_FINDER_CACHE ||= '/tmp/public-api-finder-cache.json';
+    const { searchApis } = await import('@builtbyecho/public-api-finder/src/cli.js');
     const packageResults = await searchApis(options);
     let results = packageResults;
 
