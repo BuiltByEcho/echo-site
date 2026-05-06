@@ -12,14 +12,14 @@ const CRYPTO_APIS = [
 
 
 const FINANCE_APIS = [
-  { name: 'Stooq', url: 'https://stooq.com/db/h/', description: 'Free historical stock quotes, daily prices, forex, indices, and CSV market data downloads.', auth: 'No', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 118 },
-  { name: 'Alpha Vantage', url: 'https://www.alphavantage.co/documentation/', description: 'Stock, ETF, forex, crypto, technical indicators, company data, and market data API with a free API-key tier.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 112 },
-  { name: 'Finnhub', url: 'https://finnhub.io/docs/api', description: 'Real-time stock, forex, crypto, company fundamentals, news, and alternative market data.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 108 },
-  { name: 'Twelve Data', url: 'https://twelvedata.com/docs', description: 'Stock, forex, ETF, index, and crypto market data with real-time and historical prices.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 106 },
-  { name: 'Polygon.io', url: 'https://polygon.io/docs/', description: 'Stock market, options, forex, crypto, tickers, trades, aggregates, and historical market data.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 104 },
-  { name: 'Tradier', url: 'https://developer.tradier.com/', description: 'US equity, options, quotes, market data, trading, and brokerage API.', auth: 'OAuth', https: true, cors: 'Yes', category: 'Finance', source: 'echo-curated', score: 98 },
-  { name: 'Financial Modeling Prep', url: 'https://site.financialmodelingprep.com/developer/docs', description: 'Stock quotes, company fundamentals, financial statements, earnings, analyst estimates, and market data.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 94 },
-  { name: 'Portfolio Optimizer', url: 'https://portfoliooptimizer.io/', description: 'Portfolio optimization, asset allocation, efficient frontier, risk metrics, and finance analytics API.', auth: 'No', https: true, cors: 'Yes', category: 'Finance', source: 'echo-curated', score: 72 },
+  { name: 'Stooq', url: 'https://stooq.com/db/h/', description: 'Free historical stock quotes, daily prices, forex, indices, and CSV market data downloads.', auth: 'No', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 240 },
+  { name: 'Alpha Vantage', url: 'https://www.alphavantage.co/documentation/', description: 'Stock, ETF, forex, crypto, technical indicators, company data, and market data API with a free API-key tier.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 220 },
+  { name: 'Finnhub', url: 'https://finnhub.io/docs/api', description: 'Real-time stock, forex, crypto, company fundamentals, news, and alternative market data.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 218 },
+  { name: 'Twelve Data', url: 'https://twelvedata.com/docs', description: 'Stock, forex, ETF, index, and crypto market data with real-time and historical prices.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 216 },
+  { name: 'Polygon.io', url: 'https://polygon.io/docs/', description: 'Stock market, options, forex, crypto, tickers, trades, aggregates, and historical market data.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 214 },
+  { name: 'Tradier', url: 'https://developer.tradier.com/', description: 'US equity, options, quotes, market data, trading, and brokerage API.', auth: 'OAuth', https: true, cors: 'Yes', category: 'Finance', source: 'echo-curated', score: 180 },
+  { name: 'Financial Modeling Prep', url: 'https://site.financialmodelingprep.com/developer/docs', description: 'Stock quotes, company fundamentals, financial statements, earnings, analyst estimates, and market data.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance', source: 'echo-curated', score: 170 },
+  { name: 'Portfolio Optimizer', url: 'https://portfoliooptimizer.io/', description: 'Portfolio optimization, asset allocation, efficient frontier, risk metrics, and finance analytics API.', auth: 'No', https: true, cors: 'Yes', category: 'Finance', source: 'echo-curated', score: 165 },
 ];
 
 const json = (res, status, body) => {
