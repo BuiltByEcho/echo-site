@@ -958,6 +958,8 @@
       { name: 'National Weather Service API', url: 'https://www.weather.gov/documentation/services-web-api', description: 'US weather alerts, forecasts, observations, radar stations, and gridpoint weather data.', auth: 'No', https: true, cors: 'Yes', category: 'Weather' },
       { name: 'CoinGecko', url: 'https://www.coingecko.com/en/api', description: 'Cryptocurrency prices, market data, assets, exchanges, and DeFi data.', auth: 'apiKey', https: true, cors: 'Yes', category: 'Cryptocurrency' },
       { name: 'Coinpaprika', url: 'https://api.coinpaprika.com/', description: 'Cryptocurrency prices, coins, market data, exchanges, and historical data.', auth: 'No', https: true, cors: 'Yes', category: 'Cryptocurrency' },
+      { name: 'CoinLore', url: 'https://www.coinlore.com/cryptocurrency-data-api', description: 'Free cryptocurrency ticker, coin prices, markets, exchanges, global stats, and historical crypto data.', auth: 'No', https: true, cors: 'Yes', category: 'Cryptocurrency' },
+      { name: 'CoinCap', url: 'https://docs.coincap.io/', description: 'Real-time cryptocurrency prices, assets, rates, exchanges, and markets.', auth: 'No', https: true, cors: 'Unknown', category: 'Cryptocurrency' },
       { name: 'Alpha Vantage', url: 'https://www.alphavantage.co/documentation/', description: 'Stock, ETF, forex, crypto, technical indicators, and market data API.', auth: 'apiKey', https: true, cors: 'Unknown', category: 'Finance' },
       { name: 'Stooq', url: 'https://stooq.com/db/h/', description: 'Free historical stock quotes, daily prices, forex, indices, and CSV market data downloads.', auth: 'No', https: true, cors: 'Unknown', category: 'Finance' },
       { name: 'GraphQL Jobs', url: 'https://graphql.jobs/docs/api/', description: 'GraphQL job listings and employment search API.', auth: 'No', https: true, cors: 'Yes', category: 'Jobs' },
@@ -986,16 +988,27 @@
     }
 
     function scoreApi(entry, query) {
-      const terms = apiTerms(query);
+      const rawTerms = apiTerms(query);
+      const terms = rawTerms.flatMap((term) => {
+        if (term === 'crypto') return ['crypto', 'cryptocurrency'];
+        if (term === 'cryptocurrency') return ['cryptocurrency', 'crypto'];
+        if (term === 'prices') return ['prices', 'price'];
+        if (term === 'price') return ['price', 'prices'];
+        if (term === 'coins') return ['coins', 'coin'];
+        if (term === 'coin') return ['coin', 'coins'];
+        return [term];
+      });
       const haystack = `${entry.name} ${entry.category} ${entry.description} ${entry.url}`.toLowerCase();
-      let score = 0;
+      let matchScore = 0;
       for (const term of terms) {
-        if (entry.name.toLowerCase().includes(term)) score += 14;
-        if (entry.category.toLowerCase().includes(term)) score += 10;
-        if (entry.description.toLowerCase().includes(term)) score += 6;
-        if (entry.url.toLowerCase().includes(term)) score += 3;
-        if (haystack.includes(term)) score += 1;
+        if (entry.name.toLowerCase().includes(term)) matchScore += 14;
+        if (entry.category.toLowerCase().includes(term)) matchScore += 10;
+        if (entry.description.toLowerCase().includes(term)) matchScore += 6;
+        if (entry.url.toLowerCase().includes(term)) matchScore += 3;
+        if (haystack.includes(term)) matchScore += 1;
       }
+      if (!matchScore) return 0;
+      let score = matchScore;
       if (/no auth|no key|without key|free/.test(query.toLowerCase()) && entry.auth === 'No') score += 20;
       if (/cors|browser|frontend/.test(query.toLowerCase()) && entry.cors === 'Yes') score += 12;
       if (entry.https) score += 3;
