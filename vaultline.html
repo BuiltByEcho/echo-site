@@ -761,7 +761,7 @@
         <div>
           <div class="hero-tag">Vaultline // x402 storage rails</div>
           <h1>Storage built for <span class="dim">agent work.</span></h1>
-          <p>Vaultline gets its own room now. It is the product lane for paid uploads, private wallet-gated reads, and file retrieval that agents can call without a dashboard maze.</p>
+          <p>Agents are starting to produce real artifacts — reports, datasets, images, logs, briefs — but most storage tools still assume a human with a dashboard and a billing account. Vaultline gives agents a clean rail to store, price, protect, and retrieve files over HTTP.</p>
           <div class="hero-cta">
             <a href="#use" class="btn btn-primary">Copy quickstart</a>
             <a href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
@@ -818,39 +818,88 @@ const client = new VaultlineClient({
       </div>
     </div>
   </section>
-  <section id="use">
+
+  <section id="why-vaultline">
     <div class="container">
-      <div class="section-label">// Use It Now</div>
-      <h2>Copy, run, verify</h2>
-      <div class="use-grid">
-        <div class="use-card reveal">
-          <h3>Find an API</h3>
-          <p class="project-desc">Ask for the API you need and filter for no-auth, HTTPS, CORS, category, or OpenAPI support.</p>
-          <code class="code-line">npx --yes --package=@builtbyecho/public-api-finder -- public-api-finder "weather forecast" --no-auth --https</code>
+      <div class="section-label">// Why Vaultline</div>
+      <h2>Agents need somewhere real to put the work</h2>
+      <div class="project-grid">
+        <div class="project reveal">
+          <div>
+            <div class="project-name">The problem</div>
+            <div class="project-desc">Agents can generate useful files, but the handoff is usually messy: local temp folders, pasted links, expired uploads, manual billing, and no clean access story.</div>
+            <div class="project-stack"><span class="tag">lost artifacts</span><span class="tag">manual handoff</span><span class="tag">no payment rail</span></div>
+          </div>
         </div>
-        <div class="use-card reveal">
-          <h3>Store an agent file</h3>
-          <p class="project-desc">Use Vaultline from a TypeScript agent or CLI with x402 payment and wallet-private access handled by the SDK.</p>
-          <code class="code-line">npm install @builtbyecho/vaultline-sdk viem</code>
+        <div class="project reveal">
+          <div>
+            <div class="project-name">The shift</div>
+            <div class="project-desc">If agents are going to do paid work, they need infrastructure that understands machine-to-machine payment, repeatable retrieval, and permissioned access by default.</div>
+            <div class="project-stack"><span class="tag">x402</span><span class="tag">wallet access</span><span class="tag">HTTP-native</span></div>
+          </div>
         </div>
-        <div class="use-card reveal">
-          <h3>Add CI to a repo</h3>
-          <p class="project-desc">Preview or scaffold a basic CI workflow so agents have a clear test gate before claiming success.</p>
-          <code class="code-line">npx --yes @builtbyecho/add-ci --dry-run</code>
+        <div class="project reveal">
+          <div>
+            <div class="project-name">The answer</div>
+            <div class="project-desc">Vaultline turns an agent artifact into a real product primitive: upload it, price it, gate it, share it, and fetch it later with the same simple request flow.</div>
+            <div class="project-stack"><span class="tag">store</span><span class="tag">pay</span><span class="tag">protect</span><span class="tag">retrieve</span></div>
+          </div>
         </div>
-        <div class="use-card reveal">
-          <h3>Generate a repo brief</h3>
-          <p class="project-desc">Give a coding agent the repo shape, commands, changed files, and risky areas before it starts editing.</p>
-          <code class="code-line">npx --yes repo-agent-brief --diff main</code>
-        </div>
-        <div class="use-card reveal">
-          <h3>Record work receipts</h3>
-          <p class="project-desc">Wrap important commands and keep a local receipt of what ran, what changed, and whether it passed.</p>
-          <code class="code-line">npx --yes @builtbyecho/trustlog -- npm test</code>
+        <div class="project reveal">
+          <div>
+            <div class="project-name">Why use it</div>
+            <div class="project-desc">Use Vaultline when the output matters after the agent finishes: client reports, generated media, datasets, logs, gated downloads, paid deliverables, or agent-to-agent file handoffs.</div>
+            <div class="project-stack"><span class="tag">deliverables</span><span class="tag">receipts</span><span class="tag">portable files</span></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+  <section id="use">
+    <div class="container">
+      <div class="section-label">// Vaultline Quickstart</div>
+      <h2>Store an agent file without a dashboard detour</h2>
+      <div class="project-grid">
+        <div class="project reveal">
+          <div>
+            <div class="project-name">Install the SDK</div>
+            <div class="project-desc">Use Vaultline from a TypeScript agent or CLI. Keep payment and retrieval in the same request flow.</div>
+            <code class="code-block">npm install @builtbyecho/vaultline-sdk viem</code>
+          </div>
+        </div>
+        <div class="project reveal">
+          <div>
+            <div class="project-name">Create a client</div>
+            <div class="project-desc">Point your agent at the Vaultline API and pass the wallet account that will sign x402 payments.</div>
+            <code class="code-block">const client = new VaultlineClient({
+  baseUrl: 'https://storage.builtbyecho.xyz',
+  account
+});</code>
+          </div>
+        </div>
+        <div class="project reveal">
+          <div>
+            <div class="project-name">Upload the artifact</div>
+            <div class="project-desc">Reports, images, datasets, logs, and handoff files become retrievable artifacts instead of local clutter.</div>
+            <code class="code-block">await client.upload('workspace/report.md', fileBody, {
+  visibility: 'public'
+});</code>
+          </div>
+        </div>
+        <div class="project reveal">
+          <div>
+            <div class="project-name">Gate private reads</div>
+            <div class="project-desc">Use wallet-gated access when the file should not be an open public link.</div>
+            <code class="code-block">await client.upload('private/brief.pdf', fileBody, {
+  visibility: 'private',
+  allowedWallets: [wallet]
+});</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer>
     <div class="container">
