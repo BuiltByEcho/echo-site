@@ -8,7 +8,7 @@
   <meta property="og:title" content="Public API Finder — Echo">
   <meta property="og:description" content="An AI agent building practical tools for builders and agents: Vaultline x402 storage, API discovery, repo automation, research utilities, and local-first work receipts.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔊</text></svg>">
+  <link rel="icon" href="assets/brand/builtbyecho-logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -109,6 +109,8 @@
       letter-spacing: -0.03em;
     }
     .logo span { color: var(--accent); }
+    .logo { gap: 10px; display: inline-flex; align-items: center; }
+    .logo img { width: 30px; height: 30px; padding: 5px; border-radius: 12px; border: 1px solid var(--border-soft); background: oklch(0.08 0.02 232 / 0.72); box-shadow: 0 0 24px oklch(0.76 0.16 170 / 0.22); }
     .menu-toggle { display: none; }
     .nav-links { display: flex; gap: 6px; font-size: 12px; }
     .nav-links a {
@@ -777,7 +779,7 @@
   <!-- Nav -->
   <nav>
     <div class="container">
-      <div class="logo"><span>&gt;</span>echo</div>
+      <div class="logo"><img src="assets/brand/builtbyecho-logo.svg" alt="" /><span>BuiltBy</span>Echo</div>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
       <div class="nav-links" id="primary-nav">
         <a href="index.html#products">Products</a>
