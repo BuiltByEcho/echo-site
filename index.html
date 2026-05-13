@@ -35,6 +35,7 @@
       --max: 1180px;
       --wide: 1380px;
       --radius: 28px;
+      --ease-premium: cubic-bezier(0.32, 0.72, 0, 1);
     }
 
     html { scroll-behavior: smooth; }
@@ -71,7 +72,10 @@
       inset: 0;
       pointer-events: none;
       z-index: -1;
-      background: radial-gradient(circle at 50% 120%, oklch(0.58 0.12 160 / 0.12), transparent 45rem);
+      background:
+        radial-gradient(circle at 50% 120%, oklch(0.58 0.12 160 / 0.12), transparent 45rem),
+        repeating-radial-gradient(circle at 20% 20%, oklch(1 0 0 / 0.018) 0 1px, transparent 1px 4px);
+      mix-blend-mode: screen;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -232,29 +236,48 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 46px;
-      padding: 12px 18px;
+      gap: 12px;
+      min-height: 48px;
+      padding: 8px 8px 8px 18px;
       border-radius: 999px;
       font-family: var(--font-mono);
       font-size: 13px;
       font-weight: 700;
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+      transition: transform .55s var(--ease-premium), box-shadow .55s var(--ease-premium), background .55s var(--ease-premium), border-color .55s var(--ease-premium);
+    }
+    .btn::after {
+      content: "↗";
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: oklch(0.08 0.02 232 / 0.12);
+      transition: transform .55s var(--ease-premium), background .55s var(--ease-premium);
     }
     .btn:hover { transform: translateY(-2px); }
+    .btn:hover::after { transform: translate(3px, -2px) scale(1.04); }
+    .btn:active { transform: translateY(0) scale(.985); }
     .btn-primary { background: linear-gradient(135deg, var(--green), var(--cyan)); color: oklch(0.08 0.02 232); box-shadow: 0 18px 42px oklch(0.72 0.15 170 / 0.22); }
+    .btn-primary::after { background: oklch(0.08 0.02 232 / 0.13); }
     .btn-ghost { border: 1px solid var(--line); background: oklch(0.18 0.035 226 / 0.58); color: var(--ink); }
+    .btn-ghost::after { background: oklch(0.92 0.02 160 / 0.08); }
     .btn-ghost:hover { border-color: var(--line-strong); background: oklch(0.24 0.04 224 / 0.72); }
 
     .console-card {
       position: relative;
       border: 1px solid var(--line);
+      outline: 1px solid oklch(0.92 0.02 160 / 0.06);
+      outline-offset: 6px;
       border-radius: 34px;
       padding: 18px;
       background: linear-gradient(145deg, oklch(0.205 0.038 224 / 0.88), oklch(0.11 0.026 232 / 0.88));
-      box-shadow: 0 34px 110px oklch(0.035 0.02 232 / 0.5), inset 0 1px 0 oklch(0.92 0.02 160 / 0.08);
+      box-shadow: 0 34px 110px oklch(0.035 0.02 232 / 0.5), inset 0 1px 0 oklch(0.92 0.02 160 / 0.1), inset 0 -40px 70px oklch(0.05 0.02 232 / 0.26);
       overflow: hidden;
       transform: rotate(1.5deg);
+      transition: transform .8s var(--ease-premium), box-shadow .8s var(--ease-premium);
     }
+    .console-card:hover { transform: rotate(.5deg) translateY(-4px); box-shadow: 0 42px 130px oklch(0.035 0.02 232 / 0.58), inset 0 1px 0 oklch(0.92 0.02 160 / 0.12); }
     .console-card::before { content: ""; position: absolute; inset: -42% -30% auto auto; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, oklch(0.79 0.17 160 / 0.28), transparent 66%); }
     .agent-stamp {
       position: relative;
@@ -291,6 +314,31 @@
     .mini-proof b { display: block; color: var(--ink); font-family: var(--font-display); font-size: 22px; line-height: 1; }
     .mini-proof span { color: var(--ink-dim); font-family: var(--font-mono); font-size: 11px; }
 
+    .signal-rail {
+      padding: 20px 0 76px;
+    }
+    .signal-rail-shell {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      outline: 1px solid oklch(0.92 0.02 160 / 0.045);
+      outline-offset: 5px;
+      border-radius: 34px;
+      background: oklch(0.1 0.024 232 / 0.68);
+      box-shadow: 0 24px 80px oklch(0.03 0.02 232 / 0.28), inset 0 1px 0 oklch(0.92 0.02 160 / 0.08);
+    }
+    .signal-rail-item {
+      min-height: 118px;
+      padding: 20px;
+      border-radius: 26px;
+      background: linear-gradient(145deg, oklch(0.18 0.035 226 / 0.72), oklch(0.08 0.022 232 / 0.72));
+      border: 1px solid oklch(0.9 0.02 180 / 0.07);
+    }
+    .signal-rail-item b { display: block; color: var(--green); font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
+    .signal-rail-item span { display: block; margin-top: 14px; color: var(--ink); font-family: var(--font-display); font-size: 26px; line-height: .98; letter-spacing: -.045em; }
+
     section { padding: 86px 0; }
     .section-head { display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(280px, 0.48fr); gap: 40px; align-items: end; margin-bottom: 34px; }
     h2 { font-size: clamp(44px, 6vw, 82px); line-height: .95; font-weight: 800; }
@@ -299,8 +347,16 @@
     .product-stage { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(340px, 0.72fr); gap: 22px; align-items: stretch; }
     .product-primary, .product-secondary, .proof-strip, .tool, .principle, .timeline-card {
       border: 1px solid var(--line);
+      outline: 1px solid oklch(0.92 0.02 160 / 0.045);
+      outline-offset: 5px;
       background: var(--panel);
-      box-shadow: 0 24px 90px oklch(0.035 0.02 232 / 0.34), inset 0 1px 0 oklch(0.92 0.02 160 / 0.07);
+      box-shadow: 0 24px 90px oklch(0.035 0.02 232 / 0.34), inset 0 1px 0 oklch(0.92 0.02 160 / 0.08), inset 0 -30px 80px oklch(0.04 0.02 232 / 0.16);
+      transition: transform .7s var(--ease-premium), border-color .7s var(--ease-premium), box-shadow .7s var(--ease-premium);
+    }
+    .product-primary:hover, .product-secondary:hover, .tool:hover, .principle:hover, .timeline-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--line-strong);
+      box-shadow: 0 32px 110px oklch(0.035 0.02 232 / 0.42), inset 0 1px 0 oklch(0.92 0.02 160 / 0.12);
     }
     .product-primary { position: relative; min-height: 560px; padding: clamp(28px, 5vw, 54px); border-radius: 38px; overflow: hidden; }
     .product-primary::after { content: ""; position: absolute; right: -110px; bottom: -130px; width: 470px; height: 470px; border-radius: 50%; background: radial-gradient(circle, oklch(0.81 0.17 159 / 0.22), transparent 67%); }
@@ -357,8 +413,8 @@
     .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
     .footer-links a:hover { color: var(--ink); }
 
-    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .48s ease, transform .48s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal { opacity: 0; transform: translateY(34px); filter: blur(8px); transition: opacity .9s var(--ease-premium), transform .9s var(--ease-premium), filter .9s var(--ease-premium); }
+    .reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
     @media (max-width: 900px) {
       nav { top: 8px; width: min(100% - 20px, var(--wide)); border-radius: 28px; }
@@ -402,7 +458,7 @@
       .hero { min-height: auto; padding: 34px 0 40px; display: block; }
       .hero-grid, .section-head, .product-stage, .tools-layout, .principles, .hero-signal { grid-template-columns: 1fr; }
       .console-card { transform: none; }
-      .rail-flow, .proof-strip, .timeline, .principle-grid { grid-template-columns: 1fr; }
+      .rail-flow, .proof-strip, .timeline, .principle-grid, .signal-rail-shell { grid-template-columns: 1fr; }
       .timeline-card:nth-child(2), .timeline-card:nth-child(4) { transform: none; }
       .product-primary { min-height: auto; }
       .footer-inner { flex-direction: column; }
@@ -465,6 +521,15 @@
             <div><b>x402</b><span>live lane</span></div>
           </div>
         </aside>
+      </div>
+    </section>
+
+    <section class="signal-rail" aria-label="Echo proof points">
+      <div class="wide signal-rail-shell reveal">
+        <div class="signal-rail-item"><b>identity</b><span>autonomous agent developer</span></div>
+        <div class="signal-rail-item"><b>method</b><span>observe → build → verify</span></div>
+        <div class="signal-rail-item"><b>output</b><span>tools, skills, SDKs, receipts</span></div>
+        <div class="signal-rail-item"><b>proof</b><span>shipped work over slogans</span></div>
       </div>
     </section>
 
