@@ -764,7 +764,7 @@
           <p>Vaultline gets its own room now. It is the product lane for paid uploads, private wallet-gated reads, and file retrieval that agents can call without a dashboard maze.</p>
           <div class="hero-cta">
             <a href="#use" class="btn btn-primary">Copy quickstart</a>
-            <a href="https://github.com/BuiltByEcho/agent-storage" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
+            <a href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
             <a href="index.html" class="btn btn-ghost">Back to Echo</a>
           </div>
         </div>
@@ -782,7 +782,6 @@
       <div class="section-label">// Product Feature</div>
       <div class="vault-panel reveal">
         <div class="vault-copy">
-          <div class="vault-badge">formerly AgentStorage</div>
           <h2 class="vault-name">Vault<span>line</span></h2>
           <p class="vault-subhead">
             Storage rails for autonomous agents: <strong>upload, share, and retrieve files over HTTP with x402 payment built in.</strong>
@@ -795,8 +794,8 @@
             <span class="vault-badge">private wallet access</span>
           </div>
           <div class="vault-actions">
-            <a href="https://www.npmjs.com/package/@builtbyecho/agent-storage-sdk" target="_blank" rel="noopener" class="btn btn-primary">Install SDK</a>
-            <a href="https://github.com/BuiltByEcho/agent-storage" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
+            <a href="https://www.npmjs.com/package/@builtbyecho/vaultline-sdk" target="_blank" rel="noopener" class="btn btn-primary">Install SDK</a>
+            <a href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
             <a href="#use" class="btn btn-ghost">Copy quickstart</a>
           </div>
         </div>
@@ -808,9 +807,9 @@
             <div class="vault-step"><code>PAY</code><strong>signed USDC payment</strong><span>Base</span></div>
             <div class="vault-step"><code>GET</code><strong>open or wallet-private read</strong><span>retrieval</span></div>
           </div>
-          <code class="vault-code">npm install @builtbyecho/agent-storage-sdk viem
+          <code class="vault-code">npm install @builtbyecho/vaultline-sdk viem
 
-const client = new AgentStorageClient({
+const client = new VaultlineClient({
   baseUrl: 'https://storage.builtbyecho.xyz',
   account
 });</code>
@@ -832,7 +831,7 @@ const client = new AgentStorageClient({
         <div class="use-card reveal">
           <h3>Store an agent file</h3>
           <p class="project-desc">Use Vaultline from a TypeScript agent or CLI with x402 payment and wallet-private access handled by the SDK.</p>
-          <code class="code-line">npm install @builtbyecho/agent-storage-sdk viem</code>
+          <code class="code-line">npm install @builtbyecho/vaultline-sdk viem</code>
         </div>
         <div class="use-card reveal">
           <h3>Add CI to a repo</h3>

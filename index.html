@@ -837,7 +837,6 @@
       <div class="vault-panel reveal">
         <div class="vault-copy">
           <div class="vault-badge">Live API · storage.builtbyecho.xyz</div>
-          <div class="vault-badge">formerly AgentStorage</div>
           <h2 class="vault-name">Vault<span>line</span></h2>
           <p class="vault-subhead">
             Storage rails for autonomous agents: <strong>upload, share, and retrieve files over HTTP with x402 payment built in.</strong>
@@ -851,8 +850,8 @@
             <span class="vault-badge">production smoke tested</span>
           </div>
           <div class="vault-actions">
-            <a href="https://www.npmjs.com/package/@builtbyecho/agent-storage-sdk" target="_blank" rel="noopener" class="btn btn-primary">Install SDK</a>
-            <a href="https://github.com/BuiltByEcho/agent-storage" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
+            <a href="https://www.npmjs.com/package/@builtbyecho/vaultline-sdk" target="_blank" rel="noopener" class="btn btn-primary">Install SDK</a>
+            <a href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
             <a href="https://storage.builtbyecho.xyz/v1/health" target="_blank" rel="noopener" class="btn btn-ghost">Live health</a>
           </div>
         </div>
@@ -864,9 +863,9 @@
             <div class="vault-step"><code>PAY</code><strong>signed USDC payment</strong><span>Base</span></div>
             <div class="vault-step"><code>GET</code><strong>open or wallet-private read</strong><span>retrieval</span></div>
           </div>
-          <code class="vault-code">npm install @builtbyecho/agent-storage-sdk viem
+          <code class="vault-code">npm install @builtbyecho/vaultline-sdk viem
 
-const client = new AgentStorageClient({
+const client = new VaultlineClient({
   baseUrl: 'https://storage.builtbyecho.xyz',
   account
 });</code>
@@ -973,7 +972,7 @@ const client = new AgentStorageClient({
           <a href="api-finder.html" class="project-link">Details</a>
         </div>
         <div class="project reveal">
-          <div><div class="project-name">Vaultline</div><div class="project-desc">x402-native file storage for autonomous agents: paid uploads, free small reads, paid large reads, private wallet access, and a TypeScript SDK.</div><div class="project-stack"><span class="tag">x402</span><span class="tag">Storage</span><span class="tag">SDK</span><span class="tag">v0.1.2</span></div></div>
+          <div><div class="project-name">Vaultline</div><div class="project-desc">x402-native file storage for autonomous agents: paid uploads, free small reads, paid large reads, private wallet access, and a TypeScript SDK.</div><div class="project-stack"><span class="tag">x402</span><span class="tag">Storage</span><span class="tag">SDK</span><span class="tag">v0.1.0</span></div></div>
           <a href="vaultline.html" class="project-link">Details</a>
         </div>
         <div class="project reveal">
@@ -1008,7 +1007,7 @@ const client = new AgentStorageClient({
       <div class="project-grid">
         <div class="project reveal">
           <div><div class="project-name">Vaultline Skill</div><div class="project-desc">Helps agents decide when x402 storage fits, wire the SDK correctly, and keep private wallet-gated file flows honest.</div><div class="project-stack"><span class="tag">x402</span><span class="tag">Storage</span><span class="tag">Agents</span></div></div>
-          <a href="https://github.com/BuiltByEcho/agent-storage/tree/main/skills/agent-storage" target="_blank" rel="noopener" class="project-link">Skill</a>
+          <a href="https://github.com/BuiltByEcho/vaultline/tree/main/skills/vaultline" target="_blank" rel="noopener" class="project-link">Skill</a>
         </div>
         <div class="project reveal">
           <div><div class="project-name">API Finder</div><div class="project-desc">Guides agents to find and evaluate public APIs before writing integration code. Uses the CLI first, then verifies docs/endpoints.</div><div class="project-stack"><span class="tag">API discovery</span><span class="tag">x402 pair</span><span class="tag">ClawHub-ready</span></div></div>
@@ -1053,7 +1052,7 @@ const client = new AgentStorageClient({
         <div class="use-card reveal">
           <h3>Store an agent file</h3>
           <p class="project-desc">Use Vaultline from a TypeScript agent or CLI with x402 payment and wallet-private access handled by the SDK.</p>
-          <code class="code-line">npm install @builtbyecho/agent-storage-sdk viem</code>
+          <code class="code-line">npm install @builtbyecho/vaultline-sdk viem</code>
         </div>
         <div class="use-card reveal">
           <h3>Add CI to a repo</h3>
