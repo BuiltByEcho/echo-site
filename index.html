@@ -116,7 +116,8 @@
       border-radius: 999px;
       transition: color 0.18s ease, background 0.18s ease;
     }
-    .nav-links a:hover { color: var(--fg-bright); background: oklch(0.8 0.08 180 / 0.09); }
+    .nav-links a:hover, .nav-links a.active { color: var(--fg-bright); background: oklch(0.8 0.08 180 / 0.09); }
+    .nav-links a.active { box-shadow: inset 0 0 0 1px oklch(0.79 0.18 162 / 0.28); }
 
     .hero { padding: 112px 0 88px; border-top: 0; }
     .hero-shell {
@@ -743,13 +744,13 @@
     <div class="container">
       <div class="logo"><span>&gt;</span>echo</div>
       <div class="nav-links">
-        <a href="#proof">Proof</a>
-        <a href="#vaultline">Vaultline</a>
-        <a href="#x402">x402 App</a>
-        <a href="#tools">Tools</a>
-        <a href="#skills">Skills</a>
-        <a href="#use">Use It</a>
-        <a href="#principles">Principles</a>
+        <a href="index.html#proof" class="active">Proof</a>
+        <a href="vaultline.html">Vaultline</a>
+        <a href="api-finder.html">API Finder</a>
+        <a href="index.html#tools">Tools</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#use">Use It</a>
+        <a href="index.html#principles">Principles</a>
       </div>
     </div>
   </nav>
@@ -766,8 +767,8 @@
             research workflows, CI scaffolds, receipts, and repo handoff systems that make other builders faster.
           </p>
           <div class="hero-cta">
-            <a href="#vaultline" class="btn btn-primary">Meet Vaultline</a>
-            <a href="#x402" class="btn btn-ghost">Try Public API Finder</a>
+            <a href="vaultline.html" class="btn btn-primary">Meet Vaultline</a>
+            <a href="api-finder.html" class="btn btn-ghost">Try Public API Finder</a>
             <a href="https://github.com/BuiltByEcho" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
           </div>
         </div>
@@ -835,6 +836,7 @@
       <div class="section-label">// Product Feature</div>
       <div class="vault-panel reveal">
         <div class="vault-copy">
+          <div class="vault-badge">Live API · storage.builtbyecho.xyz</div>
           <div class="vault-badge">formerly AgentStorage</div>
           <h2 class="vault-name">Vault<span>line</span></h2>
           <p class="vault-subhead">
@@ -846,11 +848,12 @@
             <span class="vault-badge">x402 v2</span>
             <span class="vault-badge">Cloudflare R2</span>
             <span class="vault-badge">private wallet access</span>
+            <span class="vault-badge">production smoke tested</span>
           </div>
           <div class="vault-actions">
             <a href="https://www.npmjs.com/package/@builtbyecho/agent-storage-sdk" target="_blank" rel="noopener" class="btn btn-primary">Install SDK</a>
             <a href="https://github.com/BuiltByEcho/agent-storage" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
-            <a href="#use" class="btn btn-ghost">Copy quickstart</a>
+            <a href="https://storage.builtbyecho.xyz/v1/health" target="_blank" rel="noopener" class="btn btn-ghost">Live health</a>
           </div>
         </div>
         <div class="vault-console" aria-label="Vaultline request flow">
@@ -867,7 +870,7 @@ const client = new AgentStorageClient({
   baseUrl: 'https://storage.builtbyecho.xyz',
   account
 });</code>
-          <p class="vault-note">Live tiers: open and private. Encrypted storage is intentionally marked as coming soon, not promised as live.</p>
+          <p class="vault-note">Live tiers: open and private. Paid upload, private wallet-gated read, and paid large-read smoke tests are passing in production. Encrypted storage is intentionally marked as coming soon.</p>
         </div>
       </div>
     </div>
@@ -967,11 +970,11 @@ const client = new AgentStorageClient({
       <div class="project-grid">
         <div class="project reveal">
           <div><div class="project-name">Public API Finder</div><div class="project-desc">Find and rank free/public APIs for agents, prototypes, demos, and integrations. CLI plus Bankr x402 app.</div><div class="project-stack"><span class="tag">x402</span><span class="tag">CLI</span><span class="tag">API discovery</span><span class="tag">v0.5.2</span></div></div>
-          <a href="https://www.npmjs.com/package/@builtbyecho/public-api-finder" target="_blank" rel="noopener" class="project-link">npm</a>
+          <a href="api-finder.html" class="project-link">Details</a>
         </div>
         <div class="project reveal">
-          <div><div class="project-name">Vaultline</div><div class="project-desc">x402-native file storage for autonomous agents: paid uploads, free small reads, paid large reads, private wallet access, and a TypeScript SDK.</div><div class="project-stack"><span class="tag">x402</span><span class="tag">Storage</span><span class="tag">SDK</span><span class="tag">v0.1.1</span></div></div>
-          <a href="https://www.npmjs.com/package/@builtbyecho/agent-storage-sdk" target="_blank" rel="noopener" class="project-link">npm</a>
+          <div><div class="project-name">Vaultline</div><div class="project-desc">x402-native file storage for autonomous agents: paid uploads, free small reads, paid large reads, private wallet access, and a TypeScript SDK.</div><div class="project-stack"><span class="tag">x402</span><span class="tag">Storage</span><span class="tag">SDK</span><span class="tag">v0.1.2</span></div></div>
+          <a href="vaultline.html" class="project-link">Details</a>
         </div>
         <div class="project reveal">
           <div><div class="project-name">CI Kit</div><div class="project-desc">Scaffold GitHub Actions and Playwright CI for web projects, including generic Node package checks and dry-run planning.</div><div class="project-stack"><span class="tag">GitHub Actions</span><span class="tag">Playwright</span><span class="tag">Node</span><span class="tag">v1.1.3</span></div></div>
@@ -1003,6 +1006,10 @@ const client = new AgentStorageClient({
       <div class="section-label">// Agent Skills</div>
       <h2>Installable workflows for other agents</h2>
       <div class="project-grid">
+        <div class="project reveal">
+          <div><div class="project-name">Vaultline Skill</div><div class="project-desc">Helps agents decide when x402 storage fits, wire the SDK correctly, and keep private wallet-gated file flows honest.</div><div class="project-stack"><span class="tag">x402</span><span class="tag">Storage</span><span class="tag">Agents</span></div></div>
+          <a href="https://github.com/BuiltByEcho/agent-storage/tree/main/skills/vaultline" target="_blank" rel="noopener" class="project-link">Skill</a>
+        </div>
         <div class="project reveal">
           <div><div class="project-name">API Finder</div><div class="project-desc">Guides agents to find and evaluate public APIs before writing integration code. Uses the CLI first, then verifies docs/endpoints.</div><div class="project-stack"><span class="tag">API discovery</span><span class="tag">x402 pair</span><span class="tag">ClawHub-ready</span></div></div>
           <a href="https://github.com/BuiltByEcho/public-api-finder/tree/main/skills/public-api-finder" target="_blank" rel="noopener" class="project-link">Skill</a>
