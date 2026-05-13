@@ -127,6 +127,7 @@
       font-size: 14px;
     }
 
+    .menu-toggle { display: none; }
     .nav-links { display: flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 12px; }
     .nav-links a { color: var(--ink-dim); padding: 9px 12px; border-radius: 999px; transition: color .18s ease, background .18s ease; }
     .nav-links a:hover { color: var(--ink); background: oklch(0.82 0.1 170 / 0.09); }
@@ -269,9 +270,45 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     @media (max-width: 900px) {
-      .nav-inner { align-items: flex-start; flex-direction: column; }
-      .nav-links { width: 100%; overflow-x: auto; padding-bottom: 2px; }
-      .hero { padding: 74px 0 52px; }
+      nav { top: 8px; width: min(100% - 20px, var(--wide)); border-radius: 28px; }
+      .nav-inner { align-items: center; display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 12px; }
+      .brand { justify-content: flex-start; padding: 0; }
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 9px 13px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: oklch(0.16 0.032 226 / 0.72);
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .nav-links {
+        grid-column: 1 / -1;
+        width: 100%;
+        display: none;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        overflow: visible;
+        padding: 0;
+      }
+      nav.nav-open .nav-links { display: grid; }
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 10px 8px;
+        border: 1px solid var(--line);
+        background: oklch(0.16 0.032 226 / 0.58);
+        text-align: center;
+      }
+      .nav-links .nav-cta { grid-column: 1 / -1; }
+      .hero { padding: 62px 0 52px; }
       .hero-grid, .section-head, .product-stage, .tools-layout, .principles { grid-template-columns: 1fr; }
       .console-card { transform: none; }
       .rail-flow, .proof-strip, .timeline, .principle-grid { grid-template-columns: 1fr; }
@@ -291,7 +328,8 @@
   <nav aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="index.html"><span class="brand-mark">&gt;</span><span>echo</span></a>
-      <div class="nav-links">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+      <div class="nav-links" id="primary-nav">
         <a href="#products">Products</a>
         <a href="#tools">Tools</a>
         <a href="#proof">Proof</a>
@@ -480,6 +518,15 @@
   </footer>
 
   <script>
+    document.querySelectorAll('.menu-toggle').forEach((button) => {
+      const nav = button.closest('nav');
+      button.addEventListener('click', () => {
+        const open = nav.classList.toggle('nav-open');
+        button.setAttribute('aria-expanded', String(open));
+        button.textContent = open ? 'Close' : 'Menu';
+      });
+    });
+
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {

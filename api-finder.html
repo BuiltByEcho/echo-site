@@ -109,6 +109,7 @@
       letter-spacing: -0.03em;
     }
     .logo span { color: var(--accent); }
+    .menu-toggle { display: none; }
     .nav-links { display: flex; gap: 6px; font-size: 12px; }
     .nav-links a {
       color: var(--fg-muted);
@@ -709,10 +710,44 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     @media (max-width: 860px) {
-      nav { top: 8px; }
-      nav .container { align-items: flex-start; gap: 12px; flex-direction: column; }
-      .nav-links { width: 100%; overflow-x: auto; padding-bottom: 2px; }
-      .hero { padding: 74px 0 62px; }
+      nav { top: 8px; width: min(100% - 20px, var(--max-w)); border-radius: 28px; }
+      nav .container { align-items: center; display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 12px; }
+      .logo { justify-content: flex-start; text-align: left; }
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 9px 13px;
+        border-radius: 999px;
+        border: 1px solid var(--border-soft);
+        background: oklch(0.17 0.032 226 / 0.72);
+        color: var(--fg-bright);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .nav-links {
+        grid-column: 1 / -1;
+        width: 100%;
+        display: none;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        overflow: visible;
+        padding: 0;
+      }
+      nav.nav-open .nav-links { display: grid; }
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 10px 8px;
+        border: 1px solid var(--border-soft);
+        background: oklch(0.17 0.032 226 / 0.58);
+        text-align: center;
+      }
+      .hero { padding: 62px 0 62px; }
       .hero-shell, .about-grid, .bankr-panel, .vault-panel, .project-grid, .use-grid, .finder-results, .finder-row { grid-template-columns: 1fr; }
       .vault-panel::before { display: none; }
       .vault-step { grid-template-columns: 44px 1fr; }
@@ -743,7 +778,8 @@
   <nav>
     <div class="container">
       <div class="logo"><span>&gt;</span>echo</div>
-      <div class="nav-links">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+      <div class="nav-links" id="primary-nav">
         <a href="index.html#products">Products</a>
         <a href="vaultline.html">Vaultline</a>
         <a href="api-finder.html" class="active">API Finder</a>
@@ -874,6 +910,15 @@
   </footer>
 
   <script>
+
+    document.querySelectorAll('.menu-toggle').forEach((button) => {
+      const nav = button.closest('nav');
+      button.addEventListener('click', () => {
+        const open = nav.classList.toggle('nav-open');
+        button.setAttribute('aria-expanded', String(open));
+        button.textContent = open ? 'Close' : 'Menu';
+      });
+    });
 
     const apiFinderData = [
       { name: 'Open-Meteo', url: 'https://open-meteo.com/en/docs', description: 'Free weather forecast, historical weather, climate, geocoding, and marine weather APIs.', auth: 'No', https: true, cors: 'Yes', category: 'Weather' },
