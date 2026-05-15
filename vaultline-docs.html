@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vaultline Docs - BuiltByEcho</title>
+  <meta name="description" content="Vaultline docs hub: quickstart, SDK install, x402 payment flow, API routes, production notes, and links to the live storage API." />
+  <link rel="icon" href="assets/brand/echo-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: oklch(0.09 0.024 232);
+      --bg-2: oklch(0.14 0.03 226);
+      --panel: oklch(0.14 0.028 232 / 0.88);
+      --border: oklch(0.72 0.08 180 / 0.16);
+      --bright: oklch(0.96 0.01 160);
+      --muted: oklch(0.78 0.04 184);
+      --accent: oklch(0.79 0.18 162);
+      --accent-2: oklch(0.83 0.11 92);
+      --display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --max: 1180px;
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--bright);
+      font-family: var(--mono);
+      background:
+        radial-gradient(circle at 20% 0%, oklch(0.46 0.14 168 / 0.18), transparent 28rem),
+        radial-gradient(circle at 100% 40%, oklch(0.44 0.12 212 / 0.14), transparent 30rem),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(20px);
+      background: oklch(0.08 0.02 232 / 0.72);
+      border-bottom: 1px solid oklch(0.72 0.08 180 / 0.1);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      min-height: 72px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--display);
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .brand img { width: 28px; height: 28px; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .nav-links a, .btn, .footer-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      background: oklch(0.16 0.03 226 / 0.42);
+    }
+    .nav-links a:hover, .btn:hover, .footer-links a:hover { color: var(--bright); border-color: var(--accent); }
+    .hero {
+      padding: 72px 0 42px;
+      border-bottom: 1px solid oklch(0.72 0.08 180 / 0.08);
+    }
+    .eyebrow {
+      display: inline-block;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    h1, h2, h3 {
+      font-family: var(--display);
+      margin: 0;
+    }
+    h1 {
+      font-size: clamp(52px, 9vw, 104px);
+      line-height: 0.95;
+      max-width: 900px;
+    }
+    h2 { font-size: clamp(32px, 5vw, 52px); line-height: 1; }
+    .lede {
+      max-width: 760px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .hero-actions, .card-actions, .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .hero-actions { margin-top: 28px; }
+    .btn.primary {
+      background: var(--accent);
+      color: oklch(0.08 0.02 232);
+      border-color: transparent;
+      font-weight: 700;
+    }
+    section { padding: 42px 0 0; }
+    .section-head { margin-bottom: 20px; }
+    .section-head p {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .card {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, var(--panel), oklch(0.1 0.022 232 / 0.9));
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 220px;
+    }
+    .card p { color: var(--muted); font-size: 13px; }
+    .label {
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 11px;
+    }
+    pre {
+      margin: 0;
+      padding: 16px;
+      overflow: auto;
+      white-space: pre-wrap;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: oklch(0.055 0.018 232 / 0.84);
+      color: var(--accent);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .route-list { display: grid; gap: 10px; }
+    .route {
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: oklch(0.11 0.022 232 / 0.72);
+    }
+    .route strong {
+      display: block;
+      color: var(--bright);
+      margin-bottom: 4px;
+    }
+    .route span { color: var(--muted); font-size: 12px; }
+    footer { padding: 56px 0 72px; }
+    .footer-links { margin-bottom: 16px; }
+    .footer-note { color: var(--muted); font-size: 12px; }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .nav-inner { padding: 12px 0; align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a class="brand" href="index.html"><img src="assets/brand/echo-logo.png" alt="" />BuiltByEcho</a>
+      <div class="nav-links">
+        <a href="vaultline.html">Vaultline</a>
+        <a href="vaultline-skill.html">Skill</a>
+        <a href="https://storage.builtbyecho.xyz/v1/health" target="_blank" rel="noopener">Live API</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <div class="eyebrow">Vaultline // docs hub</div>
+      <h1>Everything public in one place.</h1>
+      <p class="lede">Vaultline is live x402 storage for agents. This page is the public entrypoint for the SDK, the agent skill, the live API, the quickstart flow, and the operational docs builders need before wiring it into real work.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="https://www.npmjs.com/package/@builtbyecho/vaultline-sdk" target="_blank" rel="noopener">Install SDK</a>
+        <a class="btn" href="vaultline-skill.html">Open skill page</a>
+        <a class="btn" href="vaultline-skill.md">Raw skill file</a>
+        <a class="btn" href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener">GitHub repo</a>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">Get Started</div>
+        <h2>Quickstart</h2>
+        <p>Use a Base wallet that can sign x402 payments, point your client at the live API, then upload or retrieve artifacts through the same HTTP flow.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="label">1 / install</div>
+          <h3>SDK install</h3>
+          <p>The SDK is the cleanest path for TypeScript agents and CLIs.</p>
+          <pre>npm install @builtbyecho/vaultline-sdk viem</pre>
+        </article>
+        <article class="card">
+          <div class="label">2 / connect</div>
+          <h3>Create a client</h3>
+          <p>Point at the live service and pass a wallet account that can sign x402 payment payloads.</p>
+          <pre>const client = new VaultlineClient({
+  baseUrl: 'https://storage.builtbyecho.xyz',
+  account
+});</pre>
+        </article>
+        <article class="card">
+          <div class="label">3 / move files</div>
+          <h3>Upload and read</h3>
+          <p>Open is public-by-key. Private adds wallet-gated reads. Encrypted is not live yet.</p>
+          <pre>await client.upload('workspace/report.md', body, {
+  visibility: 'open'
+});</pre>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">x402 Flow</div>
+        <h2>Pay, retry, continue</h2>
+        <p>Vaultline uses the standard machine-payment loop. Send the request, parse `402`, sign the payment, retry the same request, and get the normal route response.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="label">Request</div>
+          <h3>First request</h3>
+          <p>Uploads and larger reads may be billable. Private files also require wallet-auth headers.</p>
+          <pre>PUT /v1/files/workspace/report.md
+GET /v1/files/large.bin</pre>
+        </article>
+        <article class="card">
+          <div class="label">402</div>
+          <h3>Read the quote</h3>
+          <p>When payment is required, the server returns a machine-readable `payment-required` header.</p>
+          <pre>error: payment_required
+network: eip155:8453
+asset: Base USDC
+payTo: treasury wallet</pre>
+        </article>
+        <article class="card">
+          <div class="label">Retry</div>
+          <h3>Same request, signed payment</h3>
+          <p>Keep the original request intact. Add the x402 payment header and retry.</p>
+          <pre>x-payment: &lt;signed payload&gt;
+retry original method + path + body</pre>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">API Surface</div>
+        <h2>Core routes</h2>
+        <p>These are the routes most builders need first. The repo still carries deeper operational notes, but this page covers the public shape.</p>
+      </div>
+      <div class="route-list">
+        <div class="route"><strong>PUT /v1/files/{path}</strong><span>Upload a file. Billable write path with x402 pay-and-retry.</span></div>
+        <div class="route"><strong>GET /v1/files/{path}</strong><span>Download a file. Small reads may be free; larger reads can require payment.</span></div>
+        <div class="route"><strong>HEAD /v1/files/{path}</strong><span>Inspect metadata like size, content type, and estimated read/storage cost.</span></div>
+        <div class="route"><strong>DELETE /v1/files/{path}</strong><span>Delete an object. Private objects require wallet auth.</span></div>
+        <div class="route"><strong>GET /v1/list/{prefix}</strong><span>List files under a prefix. Private visibility depends on authenticated wallet access.</span></div>
+        <div class="route"><strong>GET /v1/health</strong><span>Health endpoint for uptime checks and deploy verification.</span></div>
+        <div class="route"><strong>GET /v1/usage</strong><span>Usage, calls, users, and revenue metering summary.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">Resources</div>
+        <h2>Pick the surface you need</h2>
+        <p>Site-first when you want orientation. Repo-first when you want internals. npm-first when you just want to install and move.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="label">SDK</div>
+          <h3>npm package</h3>
+          <p>Install the SDK directly and wire it into an agent or CLI.</p>
+          <div class="card-actions"><a class="btn primary" href="https://www.npmjs.com/package/@builtbyecho/vaultline-sdk" target="_blank" rel="noopener">Open npm</a></div>
+        </article>
+        <article class="card">
+          <div class="label">Skill</div>
+          <h3>Agent instructions</h3>
+          <p>Use the hosted skill page or copy the raw markdown file into your agent setup.</p>
+          <div class="card-actions"><a class="btn" href="vaultline-skill.html">Skill page</a><a class="btn" href="vaultline-skill.md">Raw markdown</a></div>
+        </article>
+        <article class="card">
+          <div class="label">Source</div>
+          <h3>Repo docs + code</h3>
+          <p>When you need deeper architecture, tests, examples, and operational files, the repo is still the full source of truth.</p>
+          <div class="card-actions"><a class="btn" href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener">Open GitHub</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="vaultline.html">Vaultline</a>
+        <a href="vaultline-skill.html">Skill page</a>
+        <a href="vaultline-skill.md">Raw skill</a>
+        <a href="https://storage.builtbyecho.xyz/v1/health" target="_blank" rel="noopener">Live API</a>
+      </div>
+      <div class="footer-note">BuiltByEcho // Vaultline docs hub</div>
+    </div>
+  </footer>
+</body>
+</html>

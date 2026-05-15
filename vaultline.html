@@ -680,6 +680,68 @@
     }
     .project-link:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
 
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .resource-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      padding: 24px;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, var(--panel), oklch(0.13 0.023 232 / 0.82));
+      box-shadow: inset 0 1px 0 oklch(0.95 0.02 160 / 0.055);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .resource-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, oklch(0.9 0.08 180 / 0.07), transparent 42%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .resource-card:hover::after { opacity: 1; }
+    .resource-topline {
+      color: var(--accent-2);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .resource-card h3 {
+      font-family: var(--font-display);
+      color: var(--fg-bright);
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .resource-card p {
+      color: var(--fg-muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+    .resource-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .resource-links a {
+      font-size: 12px;
+      color: var(--fg-bright);
+      padding: 8px 12px;
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      background: oklch(0.16 0.03 226 / 0.52);
+    }
+    .resource-links a:hover { border-color: var(--accent); color: var(--accent); }
+
     .use-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .use-card { padding: 24px; }
     .use-card h3 { font-family: var(--font-display); color: var(--fg-bright); font-size: 24px; margin-bottom: 8px; letter-spacing: -0.04em; }
@@ -750,7 +812,7 @@
         text-align: center;
       }
       .hero { padding: 62px 0 62px; }
-      .hero-shell, .about-grid, .bankr-panel, .vault-panel, .project-grid, .use-grid, .finder-results, .finder-row { grid-template-columns: 1fr; }
+      .hero-shell, .about-grid, .bankr-panel, .vault-panel, .project-grid, .use-grid, .finder-results, .finder-row, .resource-grid { grid-template-columns: 1fr; }
       .vault-panel::before { display: none; }
       .vault-step { grid-template-columns: 44px 1fr; }
       .vault-step span { grid-column: 2; text-align: left; }
@@ -800,7 +862,7 @@
           <h1>Storage built for <span class="dim">agent work.</span></h1>
           <p>Agents are starting to produce real artifacts — reports, datasets, images, logs, briefs — but most storage tools still assume a human with a dashboard and a billing account. Vaultline gives agents a clean rail to store, price, protect, and retrieve files over HTTP.</p>
           <div class="hero-cta">
-            <a href="#use" class="btn btn-primary">Copy quickstart</a>
+            <a href="#resources" class="btn btn-primary">Open docs hub</a>
             <a href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
             <a href="index.html" class="btn btn-ghost">Back to Echo</a>
           </div>
@@ -831,7 +893,9 @@
             <span class="vault-badge">private wallet access</span>
           </div>
           <div class="vault-actions">
-            <a href="https://www.npmjs.com/package/@builtbyecho/vaultline-sdk" target="_blank" rel="noopener" class="btn btn-primary">Install SDK</a>
+            <a href="vaultline-docs.html" class="btn btn-primary">Open docs</a>
+            <a href="vaultline-skill.html" class="btn btn-ghost">Open skill</a>
+            <a href="https://www.npmjs.com/package/@builtbyecho/vaultline-sdk" target="_blank" rel="noopener" class="btn btn-ghost">Install SDK</a>
             <a href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
             <a href="#use" class="btn btn-ghost">Copy quickstart</a>
           </div>
@@ -937,6 +1001,42 @@ const client = new VaultlineClient({
     </div>
   </section>
 
+  <section id="resources">
+    <div class="container">
+      <div class="section-label">// Public Surface</div>
+      <h2>Use the site as the canonical Vaultline entrypoint</h2>
+      <div class="resource-grid">
+        <article class="resource-card reveal">
+          <div class="resource-topline">Docs hub</div>
+          <h3>Quickstart, API, and production notes</h3>
+          <p>The public docs page now pulls the core pieces into one place: install path, x402 flow, route summary, live endpoints, and the links a builder needs.</p>
+          <div class="resource-links">
+            <a href="vaultline-docs.html">Open docs</a>
+            <a href="https://storage.builtbyecho.xyz/v1/health" target="_blank" rel="noopener">Live health</a>
+          </div>
+        </article>
+        <article class="resource-card reveal">
+          <div class="resource-topline">Skill file</div>
+          <h3>Installable agent instructions, publicly hosted</h3>
+          <p>The Vaultline skill is no longer repo-only. The site now has a readable skill page and a raw markdown file that agent tooling can ingest directly.</p>
+          <div class="resource-links">
+            <a href="vaultline-skill.html">Open skill page</a>
+            <a href="vaultline-skill.md">Raw markdown</a>
+          </div>
+        </article>
+        <article class="resource-card reveal">
+          <div class="resource-topline">SDK + source</div>
+          <h3>Package, repo, and live API linked together</h3>
+          <p>The npm SDK, GitHub source, and live API are reachable from this page so the public surface no longer feels split across random places.</p>
+          <div class="resource-links">
+            <a href="https://www.npmjs.com/package/@builtbyecho/vaultline-sdk" target="_blank" rel="noopener">npm SDK</a>
+            <a href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer>
     <div class="container">
@@ -944,6 +1044,8 @@ const client = new VaultlineClient({
         <a href="https://github.com/BuiltByEcho" target="_blank" rel="noopener">GitHub</a>
         <a href="https://x.com/BuiltByEcho" target="_blank" rel="noopener">X / Twitter</a>
         <a href="https://www.npmjs.com/~builtbyecho" target="_blank" rel="noopener">npm</a>
+        <a href="vaultline-docs.html">Vaultline docs</a>
+        <a href="vaultline-skill.html">Vaultline skill</a>
         <a href="https://bankr.bot/u/0x13843882c89444bd2ba55ea9ade90c5b26b92d90/apps/public-api-finder" target="_blank" rel="noopener">Bankr x402 app</a>
       </div>
       <div class="footer-note">
