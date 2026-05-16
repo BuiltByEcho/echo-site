@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vaultline Docs - BuiltByEcho</title>
-  <meta name="description" content="Vaultline docs hub: quickstart, SDK install, x402 payment flow, API routes, production notes, and links to the live storage API." />
+  <meta name="description" content="Vaultline docs hub: Bankr x402 endpoints, request bodies, pricing, direct fallback API, SDK install, and production notes." />
   <link rel="icon" href="assets/brand/builtbyecho-logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -182,7 +182,7 @@
       <div class="nav-links">
         <a href="vaultline.html">Vaultline</a>
         <a href="vaultline-skill.html">Skill</a>
-        <a href="https://storage.builtbyecho.xyz/v1/health" target="_blank" rel="noopener">Live API</a>
+        <a href="https://x402.bankr.bot/0x13843882c89444bd2ba55ea9ade90c5b26b92d90/vaultline-upload" target="_blank" rel="noopener">Bankr endpoint</a>
       </div>
     </div>
   </nav>
@@ -191,9 +191,9 @@
     <div class="container">
       <div class="eyebrow">Vaultline // docs hub</div>
       <h1>Everything public in one place.</h1>
-      <p class="lede">Vaultline is live x402 storage for agents. This page is the public entrypoint for the SDK, the agent skill, the live API, the quickstart flow, and the operational docs builders need before wiring it into real work.</p>
+      <p class="lede">Vaultline is live x402 storage for agents. The primary public payment surface now runs through Bankr x402 Cloud; the direct Vaultline API remains available as a lower-level fallback.</p>
       <div class="hero-actions">
-        <a class="btn primary" href="https://www.npmjs.com/package/@builtbyecho/vaultline-sdk" target="_blank" rel="noopener">Install SDK</a>
+        <a class="btn primary" href="#bankr-endpoints">View Bankr endpoints</a>
         <a class="btn" href="vaultline-skill.html">Open skill page</a>
         <a class="btn" href="vaultline-skill.md">Raw skill file</a>
         <a class="btn" href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener">GitHub repo</a>
@@ -205,33 +205,59 @@
     <div class="container">
       <div class="section-head">
         <div class="eyebrow">Get Started</div>
-        <h2>Quickstart</h2>
-        <p>Use a Base wallet that can sign x402 payments, point your client at the live API, then upload or retrieve artifacts through the same HTTP flow.</p>
+        <h2>Bankr-first quickstart</h2>
+        <p>Use the Bankr x402 endpoints first. They are the public paid surface for upload, download, and list. Use the direct API only when you need lower-level SDK behavior or private wallet-gated reads.</p>
       </div>
       <div class="grid">
         <article class="card">
-          <div class="label">1 / install</div>
-          <h3>SDK install</h3>
-          <p>The SDK is the cleanest path for TypeScript agents and CLIs.</p>
-          <pre>npm install @builtbyecho/vaultline-sdk viem</pre>
+          <div class="label">1 / upload</div>
+          <h3>Store a file through Bankr</h3>
+          <p>Bankr collects x402 payment, then proxies into the Vaultline backend.</p>
+          <pre>POST https://x402.bankr.bot/0x13843882c89444bd2ba55ea9ade90c5b26b92d90/vaultline-upload
+
+{
+  "path": "workspace/report.md",
+  "content": "agent artifact",
+  "encoding": "text",
+  "contentType": "text/plain"
+}</pre>
         </article>
         <article class="card">
-          <div class="label">2 / connect</div>
-          <h3>Create a client</h3>
-          <p>Point at the live service and pass a wallet account that can sign x402 payment payloads.</p>
-          <pre>const client = new VaultlineClient({
-  baseUrl: 'https://storage.builtbyecho.xyz',
-  account
-});</pre>
+          <div class="label">2 / download</div>
+          <h3>Retrieve by path</h3>
+          <p>Return UTF-8 text for text artifacts or base64 for binary-safe handoff.</p>
+          <pre>POST https://x402.bankr.bot/0x13843882c89444bd2ba55ea9ade90c5b26b92d90/vaultline-download
+
+{
+  "path": "workspace/report.md",
+  "asText": true
+}</pre>
         </article>
         <article class="card">
-          <div class="label">3 / move files</div>
-          <h3>Upload and read</h3>
-          <p>Open is public-by-key. Private adds wallet-gated reads. Encrypted is not live yet.</p>
-          <pre>await client.upload('workspace/report.md', body, {
-  visibility: 'open'
-});</pre>
+          <div class="label">3 / list</div>
+          <h3>Inspect open objects</h3>
+          <p>List open objects by prefix. Private wallet-auth routes remain on the direct API.</p>
+          <pre>POST https://x402.bankr.bot/0x13843882c89444bd2ba55ea9ade90c5b26b92d90/vaultline-list
+
+{
+  "prefix": "workspace/"
+}</pre>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="bankr-endpoints">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">Bankr x402 Flow</div>
+        <h2>Primary paid endpoints</h2>
+        <p>Each Bankr endpoint is fixed at `$0.002 USDC/request` today and caps upload/download payloads at 5 MB. Bankr handles payment; Vaultline handles storage and metering.</p>
+      </div>
+      <div class="route-list">
+        <div class="route"><strong>POST /vaultline-upload</strong><span>Upload `{ path, content, encoding, contentType }` through Bankr x402.</span></div>
+        <div class="route"><strong>POST /vaultline-download</strong><span>Download `{ path, asText, maxBytes }` through Bankr x402.</span></div>
+        <div class="route"><strong>POST /vaultline-list</strong><span>List open objects with `{ prefix }` through Bankr x402.</span></div>
       </div>
     </div>
   </section>
@@ -239,44 +265,9 @@
   <section>
     <div class="container">
       <div class="section-head">
-        <div class="eyebrow">x402 Flow</div>
-        <h2>Pay, retry, continue</h2>
-        <p>Vaultline uses the standard machine-payment loop. Send the request, parse `402`, sign the payment, retry the same request, and get the normal route response.</p>
-      </div>
-      <div class="grid">
-        <article class="card">
-          <div class="label">Request</div>
-          <h3>First request</h3>
-          <p>Uploads and larger reads may be billable. Private files also require wallet-auth headers.</p>
-          <pre>PUT /v1/files/workspace/report.md
-GET /v1/files/large.bin</pre>
-        </article>
-        <article class="card">
-          <div class="label">402</div>
-          <h3>Read the quote</h3>
-          <p>When payment is required, the server returns a machine-readable `payment-required` header.</p>
-          <pre>error: payment_required
-network: eip155:8453
-asset: Base USDC
-payTo: treasury wallet</pre>
-        </article>
-        <article class="card">
-          <div class="label">Retry</div>
-          <h3>Same request, signed payment</h3>
-          <p>Keep the original request intact. Add the x402 payment header and retry.</p>
-          <pre>x-payment: &lt;signed payload&gt;
-retry original method + path + body</pre>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-      <div class="section-head">
-        <div class="eyebrow">API Surface</div>
-        <h2>Core routes</h2>
-        <p>These are the routes most builders need first. The repo still carries deeper operational notes, but this page covers the public shape.</p>
+        <div class="eyebrow">Fallback API Surface</div>
+        <h2>Direct Vaultline routes</h2>
+        <p>These backend routes remain live for SDK/private-wallet flows and lower-level integrations. Public paid usage should start with Bankr.</p>
       </div>
       <div class="route-list">
         <div class="route"><strong>PUT /v1/files/{path}</strong><span>Upload a file. Billable write path with x402 pay-and-retry.</span></div>
@@ -326,7 +317,7 @@ retry original method + path + body</pre>
         <a href="vaultline.html">Vaultline</a>
         <a href="vaultline-skill.html">Skill page</a>
         <a href="vaultline-skill.md">Raw skill</a>
-        <a href="https://storage.builtbyecho.xyz/v1/health" target="_blank" rel="noopener">Live API</a>
+        <a href="https://storage.builtbyecho.xyz/v1/health" target="_blank" rel="noopener">Backend health</a>
       </div>
       <div class="footer-note">BuiltByEcho // Vaultline docs hub</div>
     </div>

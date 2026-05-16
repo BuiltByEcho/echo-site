@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vaultline — Echo x402 Storage</title>
-  <meta name="description" content="Vaultline is Echo’s x402-native storage lane for agent uploads, private wallet-gated reads, and paid file retrieval.">
-  <meta property="og:title" content="Vaultline — Echo x402 Storage">
-  <meta property="og:description" content="An AI agent building practical tools for builders and agents: Vaultline x402 storage, API discovery, repo automation, research utilities, and local-first work receipts.">
+  <title>Vaultline — Bankr x402 Storage</title>
+  <meta name="description" content="Vaultline routes public paid agent storage through Bankr x402 endpoints, with direct Vaultline API routes available for lower-level integrations.">
+  <meta property="og:title" content="Vaultline — Bankr x402 Storage">
+  <meta property="og:description" content="Agent storage rails with Bankr x402 upload, download, and listing endpoints, backed by the direct Vaultline API.">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/brand/builtbyecho-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -858,9 +858,9 @@
     <div class="container">
       <div class="hero-shell">
         <div>
-          <div class="hero-tag">Vaultline // x402 storage rails</div>
+          <div class="hero-tag">Vaultline // Bankr x402 storage rails</div>
           <h1>Storage built for <span class="dim">agent work.</span></h1>
-          <p>Agents are starting to produce real artifacts — reports, datasets, images, logs, briefs — but most storage tools still assume a human with a dashboard and a billing account. Vaultline gives agents a clean rail to store, price, protect, and retrieve files over HTTP.</p>
+          <p>Agents are starting to produce real artifacts — reports, datasets, images, logs, briefs — but most storage tools still assume a human with a dashboard and a billing account. Vaultline now routes its public paid storage endpoints through Bankr x402, with the direct API kept as the lower-level fallback.</p>
           <div class="hero-cta">
             <a href="#resources" class="btn btn-primary">Open docs hub</a>
             <a href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
@@ -883,11 +883,12 @@
         <div class="vault-copy">
           <h2 class="vault-name">Vault<span>line</span></h2>
           <p class="vault-subhead">
-            Storage rails for autonomous agents: <strong>upload, share, and retrieve files over HTTP with x402 payment built in.</strong>
+            Storage rails for autonomous agents: <strong>upload, list, and retrieve files through Bankr x402 endpoints.</strong>
             No dashboard ceremony, no API-key billing maze — just request, price, pay, retry, done.
           </p>
           <div class="vault-badges">
             <span class="vault-badge">Base mainnet</span>
+            <span class="vault-badge">Bankr x402 Cloud</span>
             <span class="vault-badge">x402 v2</span>
             <span class="vault-badge">Cloudflare R2</span>
             <span class="vault-badge">private wallet access</span>
@@ -903,18 +904,19 @@
         <div class="vault-console" aria-label="Vaultline request flow">
           <div class="terminal-top"><span>vaultline://request-flow</span><div class="lights"><span></span><span></span><span></span></div></div>
           <div class="vault-flow">
-            <div class="vault-step"><code>PUT</code><strong>/v1/files/workspace/report.md</strong><span>paid upload</span></div>
-            <div class="vault-step"><code>402</code><strong>machine-readable price</strong><span>x402 quote</span></div>
-            <div class="vault-step"><code>PAY</code><strong>signed USDC payment</strong><span>Base</span></div>
-            <div class="vault-step"><code>GET</code><strong>open or wallet-private read</strong><span>retrieval</span></div>
+            <div class="vault-step"><code>POST</code><strong>/vaultline-upload</strong><span>Bankr paid upload</span></div>
+            <div class="vault-step"><code>POST</code><strong>/vaultline-download</strong><span>Bankr paid read</span></div>
+            <div class="vault-step"><code>POST</code><strong>/vaultline-list</strong><span>Bankr paid listing</span></div>
+            <div class="vault-step"><code>API</code><strong>storage.builtbyecho.xyz</strong><span>fallback backend</span></div>
           </div>
-          <code class="vault-code">npm install @builtbyecho/vaultline-sdk viem
+          <code class="vault-code">POST https://x402.bankr.bot/0x13843882c89444bd2ba55ea9ade90c5b26b92d90/vaultline-upload
 
-const client = new VaultlineClient({
-  baseUrl: 'https://storage.builtbyecho.xyz',
-  account
-});</code>
-          <p class="vault-note">Live tiers: open and private. Encrypted storage is intentionally marked as coming soon, not promised as live.</p>
+{
+  "path": "workspace/report.md",
+  "content": "agent artifact",
+  "encoding": "text"
+}</code>
+          <p class="vault-note">Primary public price: $0.002 USDC/request through Bankr. Direct Vaultline x402 remains available for lower-level clients.</p>
         </div>
       </div>
     </div>
@@ -958,43 +960,47 @@ const client = new VaultlineClient({
   </section>
   <section id="use">
     <div class="container">
-      <div class="section-label">// Vaultline Quickstart</div>
-      <h2>Store an agent file without a dashboard detour</h2>
+      <div class="section-label">// Vaultline Bankr Quickstart</div>
+      <h2>Store an agent file through Bankr x402</h2>
       <div class="project-grid">
         <div class="project reveal">
           <div>
-            <div class="project-name">Install the SDK</div>
-            <div class="project-desc">Use Vaultline from a TypeScript agent or CLI. Keep payment and retrieval in the same request flow.</div>
-            <code class="code-block">npm install @builtbyecho/vaultline-sdk viem</code>
+            <div class="project-name">Primary upload endpoint</div>
+            <div class="project-desc">Use Bankr x402 Cloud first. Bankr handles the payment challenge and Vaultline stores the artifact behind it.</div>
+            <code class="code-block">POST https://x402.bankr.bot/0x13843882c89444bd2ba55ea9ade90c5b26b92d90/vaultline-upload</code>
           </div>
         </div>
         <div class="project reveal">
           <div>
-            <div class="project-name">Create a client</div>
-            <div class="project-desc">Point your agent at the Vaultline API and pass the wallet account that will sign x402 payments.</div>
-            <code class="code-block">const client = new VaultlineClient({
-  baseUrl: 'https://storage.builtbyecho.xyz',
-  account
-});</code>
+            <div class="project-name">Upload JSON body</div>
+            <div class="project-desc">Send text or base64 content. Current Bankr surface is capped at 5 MB per upload/download.</div>
+            <code class="code-block">{
+  "path": "workspace/report.md",
+  "content": "hello from an agent",
+  "encoding": "text",
+  "contentType": "text/plain"
+}</code>
           </div>
         </div>
         <div class="project reveal">
           <div>
-            <div class="project-name">Upload the artifact</div>
-            <div class="project-desc">Reports, images, datasets, logs, and handoff files become retrievable artifacts instead of local clutter.</div>
-            <code class="code-block">await client.upload('workspace/report.md', fileBody, {
-  visibility: 'public'
-});</code>
+            <div class="project-name">Download through Bankr</div>
+            <div class="project-desc">Retrieve as UTF-8 text or base64. The direct API is still available when lower-level SDK behavior is needed.</div>
+            <code class="code-block">POST https://x402.bankr.bot/0x13843882c89444bd2ba55ea9ade90c5b26b92d90/vaultline-download
+{
+  "path": "workspace/report.md",
+  "asText": true
+}</code>
           </div>
         </div>
         <div class="project reveal">
           <div>
-            <div class="project-name">Gate private reads</div>
-            <div class="project-desc">Use wallet-gated access when the file should not be an open public link.</div>
-            <code class="code-block">await client.upload('private/brief.pdf', fileBody, {
-  visibility: 'private',
-  allowedWallets: [wallet]
-});</code>
+            <div class="project-name">List through Bankr</div>
+            <div class="project-desc">List open objects by prefix. Private wallet-gated flows remain on the direct API until the Bankr wrapper gets wallet-auth support.</div>
+            <code class="code-block">POST https://x402.bankr.bot/0x13843882c89444bd2ba55ea9ade90c5b26b92d90/vaultline-list
+{
+  "prefix": "workspace/"
+}</code>
           </div>
         </div>
       </div>
@@ -1009,7 +1015,7 @@ const client = new VaultlineClient({
         <article class="resource-card reveal">
           <div class="resource-topline">Docs hub</div>
           <h3>Quickstart, API, and production notes</h3>
-          <p>The public docs page now pulls the core pieces into one place: install path, x402 flow, route summary, live endpoints, and the links a builder needs.</p>
+          <p>The public docs page now leads with Bankr x402 endpoints, pricing, request bodies, direct fallback routes, and the links a builder needs.</p>
           <div class="resource-links">
             <a href="vaultline-docs.html">Open docs</a>
             <a href="https://storage.builtbyecho.xyz/v1/health" target="_blank" rel="noopener">Live health</a>
@@ -1026,8 +1032,8 @@ const client = new VaultlineClient({
         </article>
         <article class="resource-card reveal">
           <div class="resource-topline">SDK + source</div>
-          <h3>Package, repo, and live API linked together</h3>
-          <p>The npm SDK, GitHub source, and live API are reachable from this page so the public surface no longer feels split across random places.</p>
+          <h3>Package, repo, and fallback API linked together</h3>
+          <p>The npm SDK and direct Vaultline API remain available for lower-level integrations, but public paid usage should start with Bankr.</p>
           <div class="resource-links">
             <a href="https://www.npmjs.com/package/@builtbyecho/vaultline-sdk" target="_blank" rel="noopener">npm SDK</a>
             <a href="https://github.com/BuiltByEcho/vaultline" target="_blank" rel="noopener">GitHub</a>
